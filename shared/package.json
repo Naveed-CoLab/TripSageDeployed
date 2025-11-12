@@ -1,0 +1,19 @@
+{
+  "name": "travel-advisor-shared",
+  "version": "1.0.0",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "travel-advisor-shared": "file:",
+    "zod": "^3.24.3"
+  },
+  "devDependencies": {
+    "typescript": "5.6.3"
+  }
+}
