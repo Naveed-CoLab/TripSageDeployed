@@ -240,7 +240,9 @@ export default function PopularDestinations() {
   const handleItemClick = (type: string, item: any) => {
     switch (type) {
       case 'destination':
-        navigate(`/trips/create?destination=${encodeURIComponent(item.name)}`);
+        // Navigate to destination blog page
+        const destinationSlug = item.name.toLowerCase().replace(/\s+/g, '-');
+        navigate(`/destinations/${destinationSlug}`);
         break;
       case 'hotel':
         // Show hotel details in modal

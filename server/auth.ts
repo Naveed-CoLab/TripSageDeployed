@@ -166,6 +166,13 @@ export function setupAuth(app: Express) {
         return res.status(401).json({ message: "Invalid username or password" });
       }
       
+      // Block admin users from logging in via regular login endpoint
+      if (user.role === 'admin') {
+        return res.status(403).json({ 
+          message: "Admin users cannot login here. Please use the admin login page at /admin/login" 
+        });
+      }
+      
       req.login(user, (loginErr) => {
         if (loginErr) return next(loginErr);
         

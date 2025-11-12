@@ -76,10 +76,33 @@ export default function AuthPage() {
   });
 
   function onLoginSubmit(data: LoginFormValues) {
-    loginMutation.mutate(data);
+    // Check if user is trying to login as admin
+    if (data.username.toLowerCase().includes('admin')) {
+      setAuthError("Admin users cannot login here. Please use /admin/login instead.");
+      return;
+    }
+    
+    // Clear any previous errors
+    setAuthError(null);
+    loginMutation.mutate(data, {
+      onError: (error: any) => {
+        // Show server error if admin tries to login
+        if (error.message.includes("admin")) {
+          setAuthError(error.message);
+        }
+      }
+    });
   }
 
   function onRegisterSubmit(data: RegisterFormValues) {
+    // Block admin usernames from registration
+    if (data.username.toLowerCase().includes('admin')) {
+      setAuthError("Cannot register with username containing 'admin'. Admin accounts must be created by system administrators.");
+      return;
+    }
+    
+    // Clear any previous errors
+    setAuthError(null);
     console.log("Registering user with data:", data);
     const { confirmPassword, ...registerData } = data;
     console.log("Submitting registration data:", registerData);

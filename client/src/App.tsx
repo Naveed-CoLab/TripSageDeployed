@@ -26,6 +26,8 @@ import AITripGeneratorPage from "@/pages/ai-trip/ai-trip-generator-page";
 import AdminLoginPage from "@/pages/admin/login-page";
 import DashboardPage from "@/pages/admin/dashboard-page";
 import MapTestPage from "@/pages/map-test-page";
+import DestinationBlogPage from "@/pages/destination-blog-page";
+import TripCreatePage from "@/pages/trip-create-page";
 import { AuthProvider } from "@/hooks/use-auth";
 import { ProtectedRoute } from "@/lib/protected-route";
 import { AdminRoute } from "@/lib/admin-route";
@@ -38,7 +40,7 @@ function Router() {
       </Route>
       <Route path="/auth" component={AuthPage} />
       <ProtectedRoute path="/trips" component={TripsPage} />
-      <Route path="/trips/create" component={NotFound} />
+      <ProtectedRoute path="/trips/create" component={TripCreatePage} />
       <ProtectedRoute path="/trips/:id" component={TripDetailPage} />
       <ProtectedRoute path="/profile" component={ProfilePage} />
       <ProtectedRoute path="/profile/flights" component={ProfileFlightsPage} />
@@ -46,7 +48,8 @@ function Router() {
       <ProtectedRoute path="/bookings" component={BookingsPage} />
       <ProtectedRoute path="/wishlist" component={WishlistPage} />
       <Route path="/explore" component={ExplorePage} />
-      <Route path="/destinations/:id" component={DestinationDetailPage} />
+      <Route path="/destinations/:id" component={DestinationBlogPage} />
+      <Route path="/destination/:id" component={DestinationDetailPage} />
       <ProtectedRoute path="/flights" component={FlightsPage} />
       <ProtectedRoute path="/flights/search" component={FlightSearchPage} />
       <ProtectedRoute path="/flight-booking/:outboundId/:returnId?" component={FlightBookingPage} />
