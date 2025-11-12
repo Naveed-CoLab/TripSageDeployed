@@ -282,6 +282,9 @@ export default function DestinationBlogPage() {
             src={destination.imageUrl} 
             alt={destination.name}
             className="w-full h-full object-cover"
+            onError={(e) => {
+              e.currentTarget.src = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1920&q=80';
+            }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
         </div>
@@ -361,11 +364,15 @@ export default function DestinationBlogPage() {
         {/* Image Gallery */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-16">
           {destination.heroImages.map((image: string, index: number) => (
-            <div key={index} className="aspect-video rounded-lg overflow-hidden">
+            <div key={index} className="aspect-video rounded-lg overflow-hidden bg-gray-200">
               <img 
                 src={image} 
                 alt={`${destination.name} ${index + 1}`}
+                loading="lazy"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                onError={(e) => {
+                  e.currentTarget.src = 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80';
+                }}
               />
             </div>
           ))}
@@ -378,8 +385,8 @@ export default function DestinationBlogPage() {
             return (
               <div key={index} className="flex gap-6">
                 <div className="flex-shrink-0">
-                  <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center">
-                    <Icon className="h-6 w-6 text-orange-600" />
+                  <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center">
+                    <Icon className="h-6 w-6 text-blue-600" />
                   </div>
                 </div>
                 <div className="flex-1">
@@ -398,12 +405,12 @@ export default function DestinationBlogPage() {
         {/* Two Column Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           {/* Highlights */}
-          <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-8">
+          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-8 border border-blue-100">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Top Highlights</h3>
             <ul className="space-y-3">
               {destination.highlights.map((highlight: string, index: number) => (
                 <li key={index} className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0 mt-0.5">
                     <span className="text-white text-sm font-bold">{index + 1}</span>
                   </div>
                   <span className="text-gray-800 text-lg">{highlight}</span>
@@ -413,12 +420,12 @@ export default function DestinationBlogPage() {
           </div>
 
           {/* Tips */}
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-8">
+          <div className="bg-gradient-to-br from-slate-50 to-gray-100 rounded-xl p-8 border border-gray-200">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Travel Tips</h3>
             <ul className="space-y-3">
               {destination.tips.map((tip: string, index: number) => (
                 <li key={index} className="flex items-start gap-3">
-                  <Clock className="h-5 w-5 text-blue-600 flex-shrink-0 mt-1" />
+                  <Clock className="h-5 w-5 text-gray-600 flex-shrink-0 mt-1" />
                   <span className="text-gray-800">{tip}</span>
                 </li>
               ))}
@@ -427,7 +434,7 @@ export default function DestinationBlogPage() {
         </div>
 
         {/* CTA Section */}
-        <div className="bg-gradient-to-r from-orange-500 to-pink-500 rounded-2xl p-12 text-center text-white">
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-12 text-center text-white shadow-xl">
           <h2 className="text-3xl font-bold mb-4">Ready to Explore {destination.name}?</h2>
           <p className="text-xl mb-8 opacity-90">
             Let our AI create a personalized itinerary just for you
@@ -437,7 +444,7 @@ export default function DestinationBlogPage() {
               size="lg"
               variant="secondary"
               onClick={() => navigate(`/trips/create?destination=${encodeURIComponent(destination.name)}`)}
-              className="gap-2"
+              className="gap-2 bg-white text-blue-600 hover:bg-gray-100"
             >
               <Plane className="h-5 w-5" />
               Plan Your Trip

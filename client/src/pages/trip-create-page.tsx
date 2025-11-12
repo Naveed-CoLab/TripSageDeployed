@@ -61,8 +61,7 @@ export default function TripCreatePage() {
   
   const createTripMutation = useMutation({
     mutationFn: async (data: CreateTripFormValues) => {
-      const res = await apiRequest("/api/trips", "POST", data);
-      return res.json();
+      return await apiRequest("/api/trips", "POST", data);
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/trips"] });

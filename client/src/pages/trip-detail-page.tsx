@@ -274,8 +274,7 @@ export default function TripDetailPage() {
 
   const generateItineraryMutation = useMutation({
     mutationFn: async () => {
-      const res = await apiRequest("/api/ai/generate-itinerary", "POST", { tripId });
-      return res.json();
+      return await apiRequest("/api/ai/generate-itinerary", "POST", { tripId });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`/api/trips/${tripId}`] });
