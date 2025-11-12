@@ -233,21 +233,31 @@ export default function DestinationBlogPage() {
   const { user } = useAuth();
   const [isSaved, setIsSaved] = useState(false);
 
+  // This page is for blog-style destination content (slug-based URLs)
+  // For numeric IDs, use /destination/:id route instead
   const destination = destinationContent[id?.toLowerCase() || ''];
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
 
+  // If numeric ID not in our blog content, redirect to trip creation
   if (!destination) {
     return (
       <MainLayout>
         <div className="container mx-auto py-16 px-4 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Destination Not Found</h1>
-          <p className="text-gray-600 mb-8">We couldn't find the destination you're looking for.</p>
-          <Button onClick={() => navigate('/')}>
-            Go Home
-          </Button>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Destination Details</h1>
+          <p className="text-gray-600 mb-8">
+            This destination doesn't have a detailed guide yet, but you can still plan your trip!
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Button onClick={() => navigate('/explore')}>
+              Browse Destinations
+            </Button>
+            <Button onClick={() => navigate('/trips/create')} variant="outline">
+              Plan a Trip
+            </Button>
+          </div>
         </div>
       </MainLayout>
     );

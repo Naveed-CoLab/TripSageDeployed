@@ -31,7 +31,8 @@ export default function DestinationCard({ destination }: DestinationCardProps) {
   
   const handleViewDetails = (e: React.MouseEvent) => {
     e.preventDefault();
-    navigate(`/destinations/${destination.id}`);
+    // Use singular /destination/:id for numeric IDs (DestinationDetailPage)
+    navigate(`/destination/${destination.id}`);
   };
 
   return (
