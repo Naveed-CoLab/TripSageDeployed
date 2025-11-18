@@ -36,6 +36,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { Plane, Calendar, Clock, User, CreditCard, ShieldCheck, ArrowLeft, Check } from "lucide-react";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useMutation } from "@tanstack/react-query";
+import { buildRedirectQuery } from "@/lib/auth-redirect";
 
 // Flight data types from flights page
 type Airport = {
@@ -110,7 +111,7 @@ const passengerSchema = z.object({
 type PassengerFormValues = z.infer<typeof passengerSchema>;
 
 export default function FlightBookingPage() {
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   const [, params] = useRoute<{ outboundId: string; returnId?: string }>(
     "/flight-booking/:outboundId/:returnId?"
   );
@@ -254,7 +255,8 @@ export default function FlightBookingPage() {
           outboundFlight,
           returnFlight
         }));
-        setLocation("/auth?redirect=flight-booking");
+        const redirectQuery = buildRedirectQuery(location || window.location.pathname);
+        setLocation(`/login${redirectQuery}`);
         return;
       }
       

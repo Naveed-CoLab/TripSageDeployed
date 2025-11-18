@@ -12,6 +12,7 @@ import { Redirect, useLocation } from "wouter";
 import { EmptyState } from "../components/empty-state";
 import MainLayout from "@/components/layout/main-layout";
 import { BubbleRating } from "@/components/ui/bubble-rating";
+import { buildRedirectQuery } from "@/lib/auth-redirect";
 type WishlistItem = {
   id: number;
   userId: number;
@@ -29,7 +30,7 @@ export default function WishlistPage() {
   const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("all");
-  const [, navigate] = useLocation();
+  const [location, navigate] = useLocation();
 
   // Fetch wishlist items
   const { data: wishlistItems, isLoading } = useQuery<WishlistItem[]>({
@@ -74,7 +75,8 @@ export default function WishlistPage() {
 
   // If user is not authenticated, redirect to auth page
   if (!isAuthLoading && !user) {
-    return <Redirect to="/auth" />;
+    const redirect = buildRedirectQuery(location || "/wishlist");
+    return <Redirect to={`/login${redirect}`} />;
   }
 
   // Handle removing an item from wishlist

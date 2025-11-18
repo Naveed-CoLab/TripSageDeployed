@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'wouter';
+import { buildRedirectQuery } from '@/lib/auth-redirect';
 import MainLayout from '@/components/layout/main-layout';
 import { Button } from '@/components/ui/button';
 import { Heart, MapPin, CalendarDays, DollarSign, Plane, Hotel, Camera, Utensils, Clock, TrendingUp } from 'lucide-react';
@@ -228,7 +229,7 @@ const destinationContent: Record<string, any> = {
 
 export default function DestinationBlogPage() {
   const { id } = useParams();
-  const [, navigate] = useLocation();
+  const [location, navigate] = useLocation();
   const { toast } = useToast();
   const { user } = useAuth();
   const [isSaved, setIsSaved] = useState(false);
@@ -270,7 +271,8 @@ export default function DestinationBlogPage() {
         description: "Please sign in to save destinations",
         variant: "destructive",
       });
-      navigate('/auth');
+      const redirectQuery = buildRedirectQuery(location || `/destinations/${id}`);
+      navigate(`/login${redirectQuery}`);
       return;
     }
     

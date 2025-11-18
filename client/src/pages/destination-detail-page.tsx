@@ -9,6 +9,7 @@ import { Heart, MapPin, CalendarDays, DollarSign, Users } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/use-auth';
 import { apiRequest } from '@/lib/queryClient';
+import { sampleDestinations } from '@/data/sample-destinations';
 
 export default function DestinationDetailPage() {
   const { id } = useParams();
@@ -26,7 +27,13 @@ export default function DestinationDetailPage() {
       }
       return res.json();
     },
+    retry: false,
   });
+
+  const fallbackDestination = sampleDestinations.find(
+    (d) => d.id.toString() === (id || "")
+  );
+  const destinationData = destination || fallbackDestination;
 
   // Check if destination is in wishlist
   const { data: wishlistItems = [] } = useQuery<any[]>({
@@ -37,14 +44,15 @@ export default function DestinationDetailPage() {
   // Add to wishlist mutation
   const addToWishlist = useMutation({
     mutationFn: async () => {
+      if (!destinationData) return;
       const wishlistItem = {
         itemType: "destination",
         itemId: id,
-        itemName: destination.name,
-        itemImage: destination.imageUrl,
+        itemName: destinationData.name,
+        itemImage: destinationData.imageUrl,
         additionalData: {
-          description: destination.description,
-          country: destination.country
+          description: destinationData.description,
+          country: destinationData.country
         }
       };
       
@@ -122,7 +130,7 @@ export default function DestinationDetailPage() {
     }
   };
   
-  if (isLoading) {
+  if (isLoading && !destinationData) {
     return (
       <div className="container mx-auto py-8 px-4">
         <div className="max-w-5xl mx-auto">
@@ -143,7 +151,7 @@ export default function DestinationDetailPage() {
     );
   }
   
-  if (error || !destination) {
+  if ((!isLoading && !destinationData) || (error && !destinationData)) {
     return (
       <div className="container mx-auto py-16 px-4 text-center">
         <h1 className="text-2xl font-bold text-gray-900 mb-4">Destination Not Found</h1>
@@ -160,16 +168,16 @@ export default function DestinationDetailPage() {
       <div className="max-w-5xl mx-auto">
         <div className="flex justify-between items-start flex-wrap gap-4 mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">{destination.name}</h1>
+            <h1 className="text-3xl font-bold text-gray-900">{destinationData.name}</h1>
             <div className="flex items-center mt-2">
               <MapPin className="h-4 w-4 text-gray-500 mr-1" />
-              <span className="text-gray-600">{destination.country}</span>
+              <span className="text-gray-600">{destinationData.country}</span>
             </div>
           </div>
           <div className="flex items-center gap-4">
             <BubbleRating 
-              rating={parseFloat(destination.rating)} 
-              reviewCount={destination.reviewCount}
+              rating={parseFloat(destinationData.rating)} 
+              reviewCount={destinationData.reviewCount}
               size="md"
             />
             <Button 
@@ -185,30 +193,30 @@ export default function DestinationDetailPage() {
         
         <div className="rounded-xl overflow-hidden mb-8">
           <img 
-            src={destination.imageUrl} 
-            alt={`${destination.name}, ${destination.country}`}
+            src={destinationData.imageUrl} 
+            alt={`${destinationData.name}, ${destinationData.country}`}
             className="w-full h-[400px] object-cover"
           />
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {destination.bestTimeToVisit && (
+          {destinationData.bestTimeToVisit && (
             <div className="bg-green-50 p-4 rounded-lg">
               <div className="flex items-center mb-2">
                 <CalendarDays className="h-5 w-5 text-green-600 mr-2" />
                 <h3 className="font-semibold text-gray-900">Best Time to Visit</h3>
               </div>
-              <p className="text-gray-700">{destination.bestTimeToVisit}</p>
+              <p className="text-gray-700">{destinationData.bestTimeToVisit}</p>
             </div>
           )}
           
-          {destination.priceEstimate && (
+          {destinationData.priceEstimate && (
             <div className="bg-blue-50 p-4 rounded-lg">
               <div className="flex items-center mb-2">
                 <DollarSign className="h-5 w-5 text-blue-600 mr-2" />
                 <h3 className="font-semibold text-gray-900">Price Range</h3>
               </div>
-              <p className="text-gray-700">{destination.priceEstimate}</p>
+              <p className="text-gray-700">{destinationData.priceEstimate}</p>
             </div>
           )}
           
@@ -219,8 +227,8 @@ export default function DestinationDetailPage() {
             </div>
             <div className="flex items-center">
               <BubbleRating 
-                rating={parseFloat(destination.rating)} 
-                reviewCount={destination.reviewCount}
+                rating={parseFloat(destinationData.rating)} 
+                reviewCount={destinationData.reviewCount}
                 size="sm"
               />
             </div>
@@ -228,9 +236,9 @@ export default function DestinationDetailPage() {
         </div>
         
         <div className="mb-10">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">About {destination.name}</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">About {destinationData.name}</h2>
           <div className="prose max-w-none text-gray-700">
-            <p>{destination.description}</p>
+            <p>{destinationData.description}</p>
           </div>
         </div>
         
@@ -238,7 +246,7 @@ export default function DestinationDetailPage() {
           <Button 
             size="lg" 
             className="mr-4"
-            onClick={() => window.location.href = `/trips/create?destination=${encodeURIComponent(destination.name)}`}
+            onClick={() => window.location.href = `/trips/create?destination=${encodeURIComponent(destinationData.name)}`}
           >
             Plan a Trip
           </Button>
@@ -251,7 +259,7 @@ export default function DestinationDetailPage() {
         <ReviewList 
           targetType="destination" 
           targetId={id || ''} 
-          title={`Reviews of ${destination.name}`}
+          title={`Reviews of ${destinationData.name}`}
         />
       </div>
     </div>

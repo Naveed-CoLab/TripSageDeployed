@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -45,6 +45,7 @@ import {
   DialogTitle,
   DialogFooter
 } from "@/components/ui/dialog";
+import MainLayout from '@/components/layout/main-layout';
 
 // Define types for AI trip generation
 type GeneratedTrip = {
@@ -261,7 +262,8 @@ export default function AITripGeneratorPage() {
   };
   
   return (
-    <div className="container mx-auto py-8">
+    <MainLayout>
+      <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-8 text-center">AI Trip Generator Tool</h1>
       
       {/* Loading Dialog with Country Facts */}
@@ -552,6 +554,7 @@ export default function AITripGeneratorPage() {
           )}
         </TabsContent>
       </Tabs>
-    </div>
+      </div>
+    </MainLayout>
   );
 }

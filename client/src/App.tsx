@@ -31,6 +31,8 @@ import TripCreatePage from "@/pages/trip-create-page";
 import { AuthProvider } from "@/hooks/use-auth";
 import { ProtectedRoute } from "@/lib/protected-route";
 import { AdminRoute } from "@/lib/admin-route";
+import LoginPage from "@/pages/login-page";
+import RegisterPage from "@/pages/register-page";
 
 function Router() {
   return (
@@ -38,6 +40,8 @@ function Router() {
       <Route path="/">
         <HomePage />
       </Route>
+      <Route path="/login" component={LoginPage} />
+      <Route path="/register" component={RegisterPage} />
       <Route path="/auth" component={AuthPage} />
       <ProtectedRoute path="/trips" component={TripsPage} />
       <ProtectedRoute path="/trips/create" component={TripCreatePage} />

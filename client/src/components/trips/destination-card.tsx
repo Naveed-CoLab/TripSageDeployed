@@ -13,6 +13,8 @@ type DestinationCardProps = {
     rating: string;
     reviewCount?: number;
     priceEstimate?: string;
+    slug?: string;
+    path?: string;
   };
 };
 
@@ -31,7 +33,17 @@ export default function DestinationCard({ destination }: DestinationCardProps) {
   
   const handleViewDetails = (e: React.MouseEvent) => {
     e.preventDefault();
-    // Use singular /destination/:id for numeric IDs (DestinationDetailPage)
+
+    if (destination.path) {
+      navigate(destination.path);
+      return;
+    }
+
+    if (destination.slug) {
+      navigate(`/destinations/${destination.slug}`);
+      return;
+    }
+
     navigate(`/destination/${destination.id}`);
   };
 

@@ -55,7 +55,7 @@ export default function CallToAction({ isLoggedIn }: CallToActionProps) {
               Join thousands of happy travelers who have discovered their perfect itineraries with TripSage.
             </p>
             <div className="mt-8 flex justify-center flex-wrap gap-4">
-              <Link href={isLoggedIn ? "/trips/create" : "/auth"}>
+              <Link href={isLoggedIn ? "/trips/create" : "/login"}>
                 <Button
                   size="lg"
                   className="rounded-full px-8 bg-white text-blue-900 hover:bg-gray-100"

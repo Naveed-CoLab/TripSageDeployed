@@ -189,10 +189,10 @@ export default function Navbar() {
               </>
             ) : (
               <div className="flex items-center space-x-2">
-                <Link href="/auth" className="text-gray-600 hover:text-gray-900 font-medium text-sm py-2 px-4 rounded-md border border-gray-200 hover:bg-gray-50 transition-colors">
+                <Link href="/login" className="text-gray-600 hover:text-gray-900 font-medium text-sm py-2 px-4 rounded-md border border-gray-200 hover:bg-gray-50 transition-colors">
                   Sign In
                 </Link>
-                <Link href="/auth">
+                <Link href="/register">
                   <Button className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white shadow-sm font-medium">
                     Sign Up Free
                   </Button>
@@ -380,13 +380,13 @@ export default function Navbar() {
                       <div className="p-4">
                         <div className="grid grid-cols-2 gap-3">
                           <Link 
-                            href="/auth" 
+                            href="/login" 
                             onClick={() => setIsOpen(false)}
                           >
                             <Button variant="outline" className="w-full">Sign In</Button>
                           </Link>
                           <Link 
-                            href="/auth" 
+                            href="/register" 
                             onClick={() => setIsOpen(false)}
                           >
                             <Button className="w-full bg-gradient-to-r from-primary-600 to-primary-500">Sign Up</Button>
