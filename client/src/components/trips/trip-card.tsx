@@ -204,7 +204,7 @@ export default function TripCard({ trip }: TripCardProps) {
         
         {/* Edit and Delete buttons positioned absolutely in the top-right */}
         <div 
-          className="absolute top-2 right-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity z-10 flex gap-2"
+          className="absolute top-2 right-2 opacity-100 z-10 flex gap-2"
           onClick={handleActionClick}
         >
           <Button 
